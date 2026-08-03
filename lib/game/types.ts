@@ -1,35 +1,71 @@
 export type Screen = "career" | "team" | "film" | "life" | "legacy";
-
+export type Level = "HS" | "D3" | "D2" | "FCS" | "FBS" | "NFL";
 export type Position =
   | "QB"
   | "RB"
   | "WR"
+  | "TE"
   | "OL"
   | "DL"
   | "LB"
   | "CB"
   | "S"
-  | "K";
-
-export type DefensiveCall = "run-fit" | "balanced" | "pressure" | "shell" | "contain";
+  | "K"
+  | "P";
+export type DefensiveCall =
+  | "run-fit"
+  | "balanced"
+  | "pressure"
+  | "shell"
+  | "contain";
+export type PracticeIntensity = "walkthrough" | "normal" | "physical";
+export type PracticeFocus =
+  | "fundamentals"
+  | "scheme"
+  | "evaluation"
+  | "conditioning";
+export type RepGroup = "starters" | "balanced" | "young-players";
 
 export interface Ratings {
-  athleticism: number;
+  speed: number;
+  strength: number;
+  agility: number;
+  stamina: number;
   technique: number;
   awareness: number;
   toughness: number;
   discipline: number;
 }
-
 export interface PlayerStats {
   games: number;
+  snaps: number;
+  passAttempts: number;
+  passCompletions: number;
+  passYards: number;
+  passTD: number;
+  interceptionsThrown: number;
+  rushAttempts: number;
+  rushYards: number;
+  rushTD: number;
+  targets: number;
+  receptions: number;
+  receivingYards: number;
+  receivingTD: number;
+  pancakes: number;
+  sacksAllowed: number;
   tackles: number;
+  tacklesForLoss: number;
   sacks: number;
   interceptions: number;
-  touchdowns: number;
-  yards: number;
+  passBreakups: number;
+  forcedFumbles: number;
+  fieldGoalsMade: number;
+  fieldGoalsAttempted: number;
+  extraPointsMade: number;
+  extraPointsAttempted: number;
+  punts: number;
+  puntYards: number;
 }
-
 export interface Player {
   id: string;
   firstName: string;
@@ -52,8 +88,12 @@ export interface Player {
   development: number;
   stats: PlayerStats;
   tags: string[];
+  weeklyReps: number;
+  weeklyGrade: number;
+  gameSnaps: number;
+  injury: string | null;
+  roleNote: string;
 }
-
 export interface Opponent {
   id: string;
   name: string;
@@ -67,8 +107,26 @@ export interface Opponent {
   discipline: number;
   record: string;
   note: string;
+  district: string;
+  stateRank: number | null;
+  nationalRank: number | null;
+  offenseStyle: string;
+  defenseStyle: string;
+  keyPlayers: string[];
+  wins: number;
+  losses: number;
+  pointsFor: number;
+  pointsAgainst: number;
 }
-
+export interface RelationshipMemory {
+  id: string;
+  year: number;
+  week: number;
+  title: string;
+  detail: string;
+  tone: "warm" | "hurt" | "tense" | "proud" | "unresolved";
+  sticky: boolean;
+}
 export interface Relationship {
   id: string;
   name: string;
@@ -78,8 +136,13 @@ export interface Relationship {
   closeness: number;
   status: string;
   memory: string;
+  mood: string;
+  need: string;
+  boundary: string;
+  lastInteraction: string;
+  neglect: number;
+  history: RelationshipMemory[];
 }
-
 export interface TimelineEntry {
   id: string;
   year: number;
@@ -89,7 +152,6 @@ export interface TimelineEntry {
   detail: string;
   significance: number;
 }
-
 export interface Memory {
   key: string;
   createdYear: number;
@@ -100,7 +162,6 @@ export interface Memory {
   detail: string;
   resolved?: boolean;
 }
-
 export interface ActivityDefinition {
   id: string;
   label: string;
@@ -108,27 +169,27 @@ export interface ActivityDefinition {
   description: string;
   hours: number;
   category: "football" | "teaching" | "life" | "career" | "health";
-  effects: Partial<Record<
-    | "prep"
-    | "scouting"
-    | "energy"
-    | "stress"
-    | "family"
-    | "staff"
-    | "teaching"
-    | "reputation"
-    | "cash",
-    number
-  >>;
+  effects: Partial<
+    Record<
+      | "prep"
+      | "scouting"
+      | "energy"
+      | "stress"
+      | "family"
+      | "staff"
+      | "teaching"
+      | "reputation"
+      | "cash",
+      number
+    >
+  >;
 }
-
 export interface EventChoice {
   id: string;
   title: string;
   description: string;
   signals: string[];
 }
-
 export interface StoryEvent {
   id: string;
   eyebrow: string;
@@ -136,8 +197,87 @@ export interface StoryEvent {
   body: string;
   people: string[];
   choices: EventChoice[];
+  speaker?: string;
+  trigger?: string;
+  repeatable?: boolean;
 }
-
+export interface RelationshipChoice {
+  id: string;
+  title: string;
+  detail: string;
+  hours: number;
+  cash?: number;
+  trust: number;
+  closeness: number;
+  respect?: number;
+  outcome: string;
+  memoryTitle: string;
+  memoryTone: RelationshipMemory["tone"];
+}
+export interface RelationshipScene {
+  id: string;
+  personId: string;
+  title: string;
+  body: string;
+  trigger: string;
+  choices: RelationshipChoice[];
+}
+export interface PersonnelSlot {
+  label: string;
+  allowed: Position[];
+  playerId: string;
+}
+export interface PersonnelPackage {
+  id: string;
+  name: string;
+  description: string;
+  slots: PersonnelSlot[];
+}
+export interface PracticePlan {
+  intensity: PracticeIntensity;
+  focus: PracticeFocus;
+  reps: RepGroup;
+  positionFocus: Position;
+}
+export interface ActionFeedback {
+  id: string;
+  title: string;
+  result: string;
+  why: string;
+  deltas: string[];
+  reactions: string[];
+  callbacks: string[];
+}
+export interface GameSituation {
+  id: string;
+  quarter: number;
+  clock: string;
+  down: number;
+  distance: number;
+  yardLine: number;
+  offenseLook: string;
+  stakes: string;
+  options: GameDecision[];
+}
+export interface GameDecision {
+  id: string;
+  title: string;
+  call: DefensiveCall;
+  packageId: string;
+  description: string;
+  risk: string;
+}
+export interface DrivePlay {
+  id: string;
+  down: number;
+  distance: number;
+  yardLine: number;
+  result: string;
+  yards: number;
+  offense: boolean;
+  scorer?: string;
+  defender?: string;
+}
 export interface GameLogEntry {
   id: string;
   quarter: number;
@@ -146,24 +286,32 @@ export interface GameLogEntry {
   detail: string;
   pointsFor: number;
   pointsAgainst: number;
+  plays?: DrivePlay[];
 }
-
+export interface PostgameQuestion {
+  question: string;
+  context: string;
+  choices: { id: string; title: string; effect: string }[];
+  answered?: string;
+}
 export interface ActiveGame {
   opponent: Opponent;
-  series: number;
-  maxSeries: number;
+  decisionIndex: number;
   homeScore: number;
   awayScore: number;
   complete: boolean;
   logs: GameLogEntry[];
   opponentLooks: Record<string, number>;
   callHistory: DefensiveCall[];
+  situations: GameSituation[];
+  decisionLedger: string[];
+  postgameQuestion: PostgameQuestion | null;
+  report: string[];
 }
-
 export interface JobOpportunity {
   id: string;
   school: string;
-  level: "HS" | "D3" | "D2" | "FCS" | "FBS" | "NFL";
+  level: Level;
   role: string;
   salary: number;
   interest: number;
@@ -172,7 +320,6 @@ export interface JobOpportunity {
   requirements: string[];
   status: "watching" | "available" | "interview" | "offered" | "closed";
 }
-
 export interface SeasonResult {
   year: number;
   employer: string;
@@ -181,7 +328,33 @@ export interface SeasonResult {
   losses: number;
   achievement: string;
 }
-
+export interface RecentGameResult {
+  week: number;
+  opponent: string;
+  for: number;
+  against: number;
+  result: "W" | "L";
+}
+export interface AlumniPlayer {
+  id: string;
+  name: string;
+  position: Position;
+  graduationYear: number;
+  finalOverall: number;
+  note: string;
+}
+export interface MoneyAction {
+  id: string;
+  label: string;
+  description: string;
+  hours: number;
+  cash: number;
+  stress: number;
+  fatigue: number;
+  ethics: number;
+  reputation: number;
+  risk: string;
+}
 export interface GameState {
   version: number;
   seed: number;
@@ -192,16 +365,18 @@ export interface GameState {
   day: string;
   employer: string;
   mascot: string;
-  level: "HS" | "D3" | "D2" | "FCS" | "FBS" | "NFL";
+  level: Level;
   role: string;
   subject: string;
   philosophy: string;
   scheme: string;
-  mode: "week" | "gameday" | "postgame" | "season-end";
+  mode: "week" | "gameday" | "postgame" | "season-end" | "offseason";
   screen: Screen;
   wins: number;
   losses: number;
   conferenceRank: number;
+  stateRank: number | null;
+  nationalRank: number | null;
   reputation: number;
   schemeKnowledge: number;
   evaluation: number;
@@ -228,6 +403,7 @@ export interface GameState {
   install: number;
   gradesDue: number;
   selectedActivities: string[];
+  moneyActionsTaken: string[];
   roster: Player[];
   opponents: Opponent[];
   relationships: Relationship[];
@@ -238,7 +414,14 @@ export interface GameState {
   news: string[];
   activeGame: ActiveGame | null;
   opportunities: JobOpportunity[];
-  seasons: SeasonResult[];
+  seasonHistory: SeasonResult[];
   defensivePlan: DefensiveCall;
-  lastSavedAt: number;
+  packages: PersonnelPackage[];
+  practicePlan: PracticePlan;
+  feedback: ActionFeedback | null;
+  lockerRoomMorale: number;
+  jobSecurity: number;
+  recentResults: RecentGameResult[];
+  alumni: AlumniPlayer[];
+  offseasonWeeksRemaining: number;
 }
