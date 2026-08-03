@@ -1,0 +1,175 @@
+/* Darker interactive surfaces requested for improved contrast. */
+:root {
+  --box-bg: #111d24;
+  --box-bg-raised: #172830;
+  --box-bg-selected: #1d3a34;
+  --box-border: #46545b;
+  --box-text: #f0eadc;
+  --box-muted: #b7b4aa;
+  --box-accent: #d1a353;
+}
+
+/* Main decision choices */
+.decision-choice {
+  background: var(--box-bg-raised);
+  color: var(--box-text);
+  border-color: var(--box-border);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.28);
+}
+.decision-choice:hover:not(:disabled) {
+  background: #20343d;
+}
+.decision-choice.chosen {
+  background: var(--box-bg-selected);
+  border-color: var(--box-accent);
+  box-shadow: inset 5px 0 0 var(--box-accent);
+}
+.decision-choice > b {
+  border-right-color: var(--box-border);
+  color: var(--box-accent);
+}
+.decision-choice em,
+.signals small {
+  color: var(--box-muted);
+}
+.signals small {
+  border-color: #657178;
+}
+
+/* Feedback and popup boxes */
+.consequence-panel {
+  background: #101b22;
+  color: var(--box-text);
+  border: 1px solid var(--box-border);
+}
+.consequence-top button {
+  background: #263941;
+  color: var(--box-text);
+}
+.consequence-why,
+.callback-box,
+.meeting-trigger,
+.resolved-stamp {
+  background: #192b31;
+  color: var(--box-text);
+  border-color: #8e7445;
+}
+.meeting-trigger span,
+.consequence-why small,
+.callback-box small {
+  color: var(--box-muted);
+}
+.resolved-stamp {
+  background: #19332c;
+  border-color: #557d6a;
+}
+
+/* Tabs, roster rows and stat boxes */
+.tab-switch .selected,
+.position-tabs button,
+.player-row,
+.rating-grid div,
+.player-weather span {
+  background: var(--box-bg-raised);
+  color: var(--box-text);
+  border-color: var(--box-border);
+}
+.position-tabs button:hover,
+.player-row:hover {
+  background: #20343d;
+}
+.position-tabs .active,
+.player-row.selected,
+.standings tr.you {
+  background: var(--box-bg-selected);
+  color: var(--box-text);
+}
+.player-row {
+  border-bottom-color: #3d4a50;
+}
+.player-row small,
+.package-card label small {
+  color: var(--box-muted);
+}
+.player-row span:last-child button {
+  background: #24353d;
+  color: var(--box-text);
+  border-color: #5d6970;
+}
+
+/* Planning, practice and form controls */
+.package-card select,
+.practice-controls select,
+.plan-panel > button,
+.setup-card input,
+.setup-card select {
+  background: var(--box-bg);
+  color: var(--box-text);
+  border-color: var(--box-border);
+  color-scheme: dark;
+}
+.plan-panel > button:hover {
+  background: #1d3038;
+}
+.plan-panel > button.selected {
+  background: var(--box-bg-selected);
+  color: var(--box-text);
+  border-color: var(--box-accent);
+}
+.package-card label,
+.practice-results div,
+.standings th,
+.standings td {
+  border-color: #3e4a50;
+}
+
+/* Relationship and life-management boxes */
+.relationship-weather div,
+.relationship-scene,
+.relationship-scene button,
+.relationship-history > div,
+.mortgage-card {
+  background: var(--box-bg-raised);
+  color: var(--box-text);
+  border-color: var(--box-border);
+}
+.relationship-index > button {
+  border-bottom-color: #3e4a50;
+}
+.relationship-index > button:hover,
+.money-work > button:hover {
+  background: #1a2a31;
+}
+.relationship-index > button.selected {
+  background: var(--box-bg-selected);
+  color: var(--box-text);
+}
+.relationship-scene > small,
+.money-work em {
+  color: #e3a16f;
+}
+.relationship-history > div {
+  border-left-color: #768187;
+}
+
+/* Keep secondary copy readable on every darkened surface. */
+.consequence-panel p,
+.consequence-panel small,
+.player-row small,
+.relationship-scene small,
+.relationship-history p,
+.plan-panel small,
+.plan-panel em {
+  color: var(--box-muted);
+}
+
+@media (max-width: 700px) {
+  .decision-choice {
+    grid-template-columns: 48px minmax(0, 1fr) 20px;
+  }
+  .decision-choice .signals {
+    grid-column: 2 / -1;
+    justify-content: flex-start;
+    padding: 0 12px 10px;
+  }
+}
